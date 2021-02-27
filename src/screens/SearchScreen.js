@@ -3,7 +3,7 @@ import {View,Text,StyleSheet} from 'react-native';
 import SearchBar from "../components/SearchBar";
 import yelp from "../api/yelp";
 
-const SearchScreen = () =>{
+const SearchScreen = (searchTerm) =>{
 
     const[term,setTerm] = useState('');
     const [results,setResults] = useState([]);
@@ -14,7 +14,7 @@ const SearchScreen = () =>{
             const response = await yelp.get('/search', {
                 params: {
                     limit: 50,
-                    term,
+                    term: searchTerm,
                     location: 'san jose'
                 }
             });
@@ -29,7 +29,7 @@ const SearchScreen = () =>{
           <SearchBar
             term={term}
             onTermChanged={ newTerm => setTerm(newTerm)}
-            onTermSubmitted={searchApi}
+            onTermSubmitted={() => searchApi(term)}
           />
           {errorMessage ? <Text>{errorMessage}</Text> : null}
       </View>
